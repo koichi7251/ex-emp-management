@@ -1,6 +1,7 @@
 package jp.co.sample.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -50,13 +51,15 @@ public class AdministratorRepository {
 	 * @return メールアドレスとパスワードがデータと一致した場合そのカラムを、しない場合nullを返す
 	 */
 	public Administrator findByMailAddressAndPassword(String mailAddress, String password) {
-		String sql = "id,name,mail_address,password from administrator "
+		String sql = "select id,name,mail_address,password from administrators "
 				     + "where mail_address = :mailAddress AND password = :password";
 		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("meil_address", mailAddress)
+				.addValue("mailAddress", mailAddress)
 				.addValue("password", password);
-		Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
-		return administrator;
+		try{Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
+			return administrator;}
+		catch(EmptyResultDataAccessException e){return null;}
+		
 	}
 
 }

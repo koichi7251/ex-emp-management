@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,13 +96,14 @@ public class AdministratorController {
 	 * @return
 	 */
 	@RequestMapping("/login")
-	public String login(LoginForm form, Errors error) {
+	public String login(LoginForm form, Errors error,Model model) {
 		if (administratorService.login(form.getMailAddress(), form.getPassword()) == null) {
-			error.rejectValue("mail_address", null, "メールアドレスまたはパスワードが間違っています。");
+			error.rejectValue("mailAddress", null, "メールアドレスまたはパスワードが間違っています。");
+			return "administrator/login";
 		} else {
 			Administrator administrator = new Administrator();
 			session.setAttribute("administratroName", administrator.getName());
+			return "forward:/employee/showList";
 		}
-		return "forward:/employee/showList";
 	}
 }
