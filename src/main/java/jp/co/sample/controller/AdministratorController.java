@@ -1,7 +1,10 @@
 package jp.co.sample.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,9 +38,9 @@ public class AdministratorController {
 	}
 
 	/**
-	 * HTMLファイルに遷移するためのメソッド.
+	 * 管理者登録画面へ遷移する.
 	 * 
-	 * @return "administrator/insert" フォワードする
+	 * @return 管理者登録画面
 	 */
 
 	@RequestMapping("/toInsert")
@@ -64,20 +67,41 @@ public class AdministratorController {
 
 	/**
 	 * ログインする操作をするためのメソッド.
-	 * @return form LoginFormのリクエストパラメータのインスタンス　リクエストスコープに格納される
+	 * 
+	 * @return form LoginFormのリクエストパラメータのインスタンス リクエストスコープに格納される
 	 */
 	@ModelAttribute
 	public LoginForm setUpLoginForm() {
 		LoginForm form = new LoginForm();
 		return form;
 	}
-	
+
 	/**
-	 * ログイン用のHTMLに遷移するメソッド.
-	 * @return "administrator/login"にフォワードする
+	 * ログイン用画面に遷移する.
+	 * 
+	 * @return ログイン用画面
 	 */
 	@RequestMapping("/")
 	public String toLogin() {
 		return "administrator/login";
+	}
+
+	@Autowired
+	private HttpSession session;
+
+	/**
+	 * 
+	 * @param form
+	 * @return
+	 */
+	@RequestMapping("/login")
+	public String login(LoginForm form, Errors error) {
+		if (administratorService.login(form.getMailAddress(), form.getPassword()) == null) {
+			error.rejectValue("mail_address", null, "メールアドレスまたはパスワードが間違っています。");
+		} else {
+			Administrator administrator = new Administrator();
+			session.setAttribute("administratroName", administrator.getName());
+		}
+		return "forward:/employee/showList";
 	}
 }
