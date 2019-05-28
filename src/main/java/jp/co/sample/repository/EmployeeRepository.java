@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import jp.co.sample.domain.Employee;
 
 /**
- * 従業員のデータベース情報を操作するリポジトリクラス
+ * 従業員のデータベース情報を操作するリポジトリクラス.
  * @author koichi.nagata
  *
  */
@@ -36,24 +36,22 @@ public class EmployeeRepository {
 		return emp;
 	};
 	
-	/**  プレースホルダの生成  */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
 	/**
-	 * 従業員一覧を入社日順で昇順表示するメソッド
-	 * @return 全従業員一覧、いない場合null(空の従業員一覧)を返す
+	 * 従業員一覧を入社日順で昇順表示するメソッド.
+	 * @return 全従業員一覧、いない場合サイズ0件の従業員一覧を返す
 	 */
 	public List<Employee> findAll(){
 		String sql = "select id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count from employees order by hire_date";
 		List<Employee> employeeList = template.query(sql, EMPLOYEE_ROW_MAPPER);
 		return employeeList;
-		//nullを返すif文書いた方がいいかも？
 	}
 	
 	/**
-	 * 従業員をID検索してその従業員の情報を表示する
-	 * @param id
+	 * 従業員をID検索してその従業員の情報を表示する.
+	 * @param id　ID
 	 * @return 従業員情報
 	 */
 	public Employee load(Integer id) {
@@ -64,8 +62,8 @@ public class EmployeeRepository {
 	}
 	
 	/**
-	 * 従業員IDを指定して従業員の扶養人数を変更する
-	 * @param emp　指定された従業員の情報を一括表示
+	 * 従業員IDを指定して従業員の扶養人数を変更する.
+	 * @param emp　更新したい従業員情報
 	 */
 	public void update(Employee emp) {
 		String sql = "update employee set dependents_count = :dependent_count where id = :id";

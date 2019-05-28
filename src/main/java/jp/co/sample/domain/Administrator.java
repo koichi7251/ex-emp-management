@@ -2,7 +2,7 @@ package jp.co.sample.domain;
 
 
 /**
- * 管理者情報を表すドメイン
+ * 管理者情報を表すドメイン.
  * 
  * @author koichi.nagata
  *

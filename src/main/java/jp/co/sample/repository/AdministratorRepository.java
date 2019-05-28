@@ -10,17 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import jp.co.sample.domain.Administrator;
 
-
 /**
- * 管理者のデータベース情報を操作するリポジトリクラス
+ * 管理者のデータベース情報を操作するリポジトリクラス.
  * 
  * @author koichi.nagata
  *
  */
 @Repository
 public class AdministratorRepository {
-	/**  Administratorからrow_mapperの生成  */
-	private static final RowMapper<Administrator> ADMINISTRATOR_ROW_MAPPER =(rs,i)->{
+	/** Administratorからrow_mapperの生成 */
+	private static final RowMapper<Administrator> ADMINISTRATOR_ROW_MAPPER = (rs, i) -> {
 		Administrator admin = new Administrator();
 		admin.setId(rs.getInt("id"));
 		admin.setName(rs.getString("name"));
@@ -28,32 +27,36 @@ public class AdministratorRepository {
 		admin.setPassword(rs.getString("password"));
 		return admin;
 	};
-	
-	/**  プレースホルダの生成  */
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	/**
-	 * 管理者のアカウント生成機能
-	 * @param admin
+	 * 管理者のアカウント生成機能.
+	 * 
+	 * @param administrator 登録したい管理者情報
 	 */
-	public void insert(Administrator admin) {
-		SqlParameterSource param = new BeanPropertySqlParameterSource(admin);
-			String insertSql = "insert into employees(name,mail_address,password) values (:name,:mail_address,:password)";
-			template.update(insertSql, param);
+	public void insert(Administrator administrator) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(administrator);
+		String insertSql = "insert into employees(name,mail_address,password) values (:name,:mail_address,:password)";
+		template.update(insertSql, param);
 	}
-	
+
 	/**
-	 * ログイン用のメソッド
-	 * @param mailAddress
-	 * @param password
+	 * ログイン用のメソッド.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @param password    パスワード
 	 * @return メールアドレスとパスワードがデータと一致した場合そのカラムを、しない場合nullを返す
 	 */
-	public Administrator findByMailAddressAndPassword(String mailAddress,String password) {
-		String sql = "id,name,mail_address,password from administrator where mail_address = :mail_address AND password = :password";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("meil_address", mailAddress).addValue("password", password);
-		Administrator admin = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
-		return admin;
+	public Administrator findByMailAddressAndPassword(String mailAddress, String password) {
+		String sql = "id,name,mail_address,password from administrator "
+				     + "where mail_address = :mail_address AND password = :password";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("meil_address", mailAddress)
+				.addValue("password", password);
+		Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
+		return administrator;
 	}
-	
+
 }
