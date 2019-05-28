@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sample.domain.Administrator;
 import jp.co.sample.form.InsertAdministratorForm;
+import jp.co.sample.form.LoginForm;
 import jp.co.sample.service.AdministratorService;
 
 /**
@@ -25,7 +26,7 @@ public class AdministratorController {
 	/**
 	 * 管理者情報を登録するメソッド.
 	 * 
-	 * @return insertAdministratorForm リクエストパラメータのインスタンス リクエストスコープに格納される
+	 * @return form InsertAdministratorFormのリクエストパラメータのインスタンス リクエストスコープに格納される
 	 */
 	@ModelAttribute
 	public InsertAdministratorForm setUpInsertAdministrator() {
@@ -34,10 +35,11 @@ public class AdministratorController {
 	}
 
 	/**
-	 * htmlファイルに遷移するためのメソッド.
+	 * HTMLファイルに遷移するためのメソッド.
 	 * 
 	 * @return "administrator/insert" フォワードする
 	 */
+
 	@RequestMapping("/toInsert")
 	public String toInsert() {
 		return "administrator/insert";
@@ -49,6 +51,7 @@ public class AdministratorController {
 	 * @param form viewから受け取った情報の入ったフォーム
 	 * @return 「/」にリダイレクト
 	 */
+
 	@RequestMapping("/insert")
 	public String insert(InsertAdministratorForm form) {
 		Administrator administrator = new Administrator();
@@ -57,5 +60,24 @@ public class AdministratorController {
 		administrator.setPassword(form.getPassword());
 		administratorService.insert(administrator);
 		return "redirect:/";
+	}
+
+	/**
+	 * ログインする操作をするためのメソッド.
+	 * @return form LoginFormのリクエストパラメータのインスタンス　リクエストスコープに格納される
+	 */
+	@ModelAttribute
+	public LoginForm setUpLoginForm() {
+		LoginForm form = new LoginForm();
+		return form;
+	}
+	
+	/**
+	 * ログイン用のHTMLに遷移するメソッド.
+	 * @return "administrator/login"にフォワードする
+	 */
+	@RequestMapping("/")
+	public String toLogin() {
+		return "administrator/login";
 	}
 }
