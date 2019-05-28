@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 従業員情報を表すドメイン
  * 
- * @author user
+ * @author koichi.nagata
  *
  */
 public class Employee {
