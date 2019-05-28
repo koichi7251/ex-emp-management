@@ -6,6 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sample.repository.AdministratorRepository;
 
+/**
+ * 管理者情報のサービスクラス.
+ * @author koichi.nagata
+ *
+ */
 @Service
 @Transactional
 public class AdministratorService {
