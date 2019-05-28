@@ -28,7 +28,7 @@ public class AdministratorController {
 	private AdministratorService administratorService;
 
 	/**
-	 * 管理者情報を登録するメソッド.
+	 * 管理者情報を登録する.
 	 * 
 	 * @return form InsertAdministratorFormのリクエストパラメータのインスタンス リクエストスコープに格納される
 	 */
@@ -50,7 +50,7 @@ public class AdministratorController {
 	}
 
 	/**
-	 * 管理者フォームのデータをドメインにコピーしてサービスの登録用メソッドを呼び出して登録をするメソッド.
+	 * 管理者フォームのデータをドメインにコピーしてサービスの登録用メソッドを呼び出して登録をする.
 	 * 
 	 * @param form viewから受け取った情報の入ったフォーム
 	 * @return 「/」にリダイレクト
@@ -91,12 +91,13 @@ public class AdministratorController {
 	private HttpSession session;
 
 	/**
+	 * ログイン処理.
 	 * 
 	 * @param form
-	 * @return
+	 * @return formがnullでエラーメッセージ データが一致した場合従業員一覧画面
 	 */
 	@RequestMapping("/login")
-	public String login(LoginForm form, Errors error,Model model) {
+	public String login(LoginForm form, Errors error, Model model) {
 		if (administratorService.login(form.getMailAddress(), form.getPassword()) == null) {
 			error.rejectValue("mailAddress", null, "メールアドレスまたはパスワードが間違っています。");
 			return "administrator/login";
