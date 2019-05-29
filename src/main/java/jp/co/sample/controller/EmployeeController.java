@@ -55,7 +55,7 @@ public class EmployeeController {
 	 * @param model model
 	 * @return 従業員個人情報
 	 */
-	@RequestMapping
+	@RequestMapping("/showDetail")
 	public String showDetail(String id,Model model) {
 		model.addAttribute("employee",employeeService.showDetail(Integer.parseInt(id)));
 		return "employee/detail";		
