@@ -16,21 +16,20 @@ import jp.co.sample.repository.AdministratorRepository;
 @Service
 @Transactional
 public class AdministratorService {
-	
+
 	@Autowired
 	private AdministratorRepository administratorRepository;
-	
+
 	/**
 	 * 管理者情報を登録する.
 	 * 
-	 * @param administrator　管理者情報
+	 * @param administrator 管理者情報
 	 */
 	public void insert(Administrator administrator) {
 		administratorRepository.insert(administrator);
 	}
-	
-	
-	public Administrator login(String mailAddress,String password) {
+
+	public Administrator login(String mailAddress, String password) {
 		return administratorRepository.findByMailAddressAndPassword(mailAddress, password);
 	}
 }

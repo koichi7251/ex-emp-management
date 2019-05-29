@@ -52,14 +52,16 @@ public class AdministratorRepository {
 	 */
 	public Administrator findByMailAddressAndPassword(String mailAddress, String password) {
 		String sql = "select id,name,mail_address,password from administrators "
-				     + "where mail_address = :mailAddress AND password = :password";
-		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("mailAddress", mailAddress)
-				.addValue("password", password);
-		try{Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
-			return administrator;}
-		catch(EmptyResultDataAccessException e){return null;}
-		
+				+ "where mail_address = :mailAddress AND password = :password";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress).addValue("password",
+				password);
+		try {
+			Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
+			return administrator;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+
 	}
 
 }

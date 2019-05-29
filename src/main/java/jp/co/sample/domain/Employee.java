@@ -9,11 +9,11 @@ import java.util.Date;
  *
  */
 public class Employee {
-	/**	ID	*/
+	/** ID */
 	private Integer id;
-	/**	名前	*/
+	/** 名前 */
 	private String name;
-	/**	画像	*/
+	/** 画像 */
 	private String image;
 	/** 性別 */
 	private String gender;
@@ -31,11 +31,11 @@ public class Employee {
 	private Integer salary;
 	/** 特性 */
 	private String characteristics;
-	/**扶養人数*/
+	/** 扶養人数 */
 	public Integer dependentsCount;
-	
+
 	public Employee() {
-		
+
 	}
 
 	public Employee(Integer id, String name, String image, String gender, Date hireDate, String mailAddress,
@@ -159,6 +159,5 @@ public class Employee {
 				+ ", telephone=" + telephone + ", salary=" + salary + ", characteristics=" + characteristics
 				+ ", dependentsCount=" + dependentsCount + "]";
 	}
-	
-	
+
 }

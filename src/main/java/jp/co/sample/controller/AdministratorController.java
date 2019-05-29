@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,14 +96,15 @@ public class AdministratorController {
 	 * @return formがnullでエラーメッセージ データが一致した場合従業員一覧画面
 	 */
 	@RequestMapping("/login")
-	public String login(LoginForm form, Errors error, Model model) {
-		if (administratorService.login(form.getMailAddress(), form.getPassword()) == null) {
+	public String login(LoginForm form, Errors error) {
+		Administrator administrator = administratorService.login(form.getMailAddress(), form.getPassword());
+		if (administrator == null) {
 			error.rejectValue("mailAddress", null, "メールアドレスまたはパスワードが間違っています。");
 			return "administrator/login";
-		} else {
-			Administrator administrator = new Administrator();
-			session.setAttribute("administratroName", administrator.getName());
-			return "forward:/employee/showList";
 		}
+
+//		Administrator administrator = new Administrator();
+		session.setAttribute("administratroName", administrator.getName());
+		return "forward:/employee/showList";
 	}
 }
