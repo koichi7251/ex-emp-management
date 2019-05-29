@@ -5,14 +5,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.sample.domain.Administrator;
 import jp.co.sample.form.InsertAdministratorForm;
 import jp.co.sample.form.LoginForm;
-import jp.co.sample.form.UpdateEmployeeForm;
 import jp.co.sample.service.AdministratorService;
 
 /**
@@ -50,6 +52,12 @@ public class AdministratorController {
 		return "administrator/insert";
 	}
 
+	
+	@ModelAttribute
+	public InsertAdministratorForm setUpForm() {
+		return new InsertAdministratorForm();
+	}
+	
 	/**
 	 * 管理者フォームのデータをドメインにコピーしてサービスの登録用メソッドを呼び出して登録をする.
 	 * 
@@ -58,7 +66,12 @@ public class AdministratorController {
 	 */
 
 	@RequestMapping("/insert")
-	public String insert(InsertAdministratorForm form) {
+	public String insert
+	(@Validated InsertAdministratorForm form,BindingResult result,RedirectAttributes redirectAttributes,Model model) {
+		
+		if(result.hasErrors()) {
+			return "administrator/insert";
+		}
 		Administrator administrator = new Administrator();
 		administrator.setName(form.getName());
 		administrator.setMailAddress(form.getMailAddress());
@@ -106,7 +119,7 @@ public class AdministratorController {
 		}
 
 //		Administrator administrator = new Administrator();
-		session.setAttribute("administratroName", administrator.getName());
+		session.setAttribute("administratorName", administrator.getName());
 		return "forward:/employee/showList";
 	}
 
@@ -118,8 +131,8 @@ public class AdministratorController {
 	 * @return ログイン画面
 	 */
 	@RequestMapping("/logout")
-	public String logout(UpdateEmployeeForm form, Model model) {
+	public String logout() {
 		session.invalidate();
 		return "redirect:/";
-	}
+	}        
 }
