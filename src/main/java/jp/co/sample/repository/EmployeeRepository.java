@@ -67,12 +67,12 @@ public class EmployeeRepository {
 	/**
 	 * 従業員IDを指定して従業員の扶養人数を変更する.
 	 * 
-	 * @param emp 更新したい従業員情報
+	 * @param employee 更新したい従業員情報
 	 */
-	public void update(Employee emp) {
-		String sql = "update employee set dependents_count = :dependent_count where id = :id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", emp.getId()).addValue("dependents_count",
-				emp.getDependentsCount());
+	public void update(Employee employee) {
+		String sql = "update employees set dependents_count = :dependentsCount where id = :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", employee.getId()).addValue("dependentsCount",
+				employee.getDependentsCount());
 		template.update(sql, param);
 	}
 }
