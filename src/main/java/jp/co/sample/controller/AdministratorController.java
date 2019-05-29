@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jp.co.sample.domain.Administrator;
 import jp.co.sample.form.InsertAdministratorForm;
 import jp.co.sample.form.LoginForm;
+import jp.co.sample.form.UpdateEmployeeForm;
 import jp.co.sample.service.AdministratorService;
 
 /**
@@ -106,5 +108,18 @@ public class AdministratorController {
 //		Administrator administrator = new Administrator();
 		session.setAttribute("administratroName", administrator.getName());
 		return "forward:/employee/showList";
+	}
+
+	/**
+	 * ログアウト処理.
+	 * 
+	 * @param form  フォーム
+	 * @param model モデル
+	 * @return ログイン画面
+	 */
+	@RequestMapping("/logout")
+	public String logout(UpdateEmployeeForm form, Model model) {
+		session.invalidate();
+		return "redirect:/";
 	}
 }
